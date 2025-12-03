@@ -1,15 +1,444 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Loading...</title>
+  <title>Player Development Hub • GameDayHQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script>
-    // Redirect to your Apps Script web app
-    window.location.replace("https://script.google.com/macros/s/AKfycbyWWG5eR1CGy6uqVweKO6wMrJu-5PHvKSnK7aB8HcdKBUC1V41fyniXacRFI_40uph1/exec");
-  </script>
+  <style>
+    :root {
+      --bg: #020617;
+      --card: #020617;
+      --accent: #facc15;       /* golden highlight */
+      --accent-soft: #fef3c7;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.45);
+      --badge: #1d4ed8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top, #111827 0, #020617 55%, #000 100%);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      padding: 1.5rem;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 780px;
+    }
+
+    .card {
+      background: linear-gradient(135deg, rgba(15,23,42,0.97), rgba(15,23,42,1));
+      border-radius: 1.6rem;
+      border: 1px solid var(--border);
+      box-shadow:
+        0 32px 80px rgba(0,0,0,0.78),
+        0 0 0 1px rgba(15,23,42,0.95);
+      padding: 2.4rem 2.1rem 2.0rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(250,204,21,0.18), transparent 55%),
+        radial-gradient(circle at 110% -10%, rgba(59,130,246,0.18), transparent 55%);
+      opacity: 1;
+      pointer-events: none;
+    }
+
+    .card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      align-items: center;
+      margin-bottom: 1.1rem;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.22rem 0.8rem;
+      border-radius: 999px;
+      border: 1px solid rgba(248,250,252,0.14);
+      background: linear-gradient(120deg, rgba(15,23,42,0.95), rgba(15,23,42,0.55));
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .tag-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34,197,94,0.3);
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      padding: 0.22rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(37,99,235,0.16);
+      border: 1px solid rgba(96,165,250,0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #bfdbfe;
+    }
+
+    .title-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 1rem 1.5rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .title-text h1 {
+      font-size: clamp(2.2rem, 4vw, 2.7rem);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .title-text h1 span {
+      color: var(--accent-soft);
+    }
+
+    .title-text p {
+      margin-top: 0.4rem;
+      font-size: 0.95rem;
+      color: var(--muted);
+      max-width: 30rem;
+    }
+
+    .crest {
+      margin-left: auto;
+      border-radius: 1.25rem;
+      border: 1px solid rgba(148,163,184,0.65);
+      padding: 0.6rem 1.0rem;
+      text-align: center;
+      min-width: 150px;
+      background:
+        radial-gradient(circle at top, rgba(248,250,252,0.08), transparent 65%);
+    }
+
+    .crest-top {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .crest-main {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+    }
+
+    .crest-main span {
+      color: var(--accent);
+    }
+
+    .crest-bottom {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+
+    .body-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.1fr);
+      gap: 1.75rem;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 720px) {
+      .card {
+        padding: 1.9rem 1.6rem 1.7rem;
+        border-radius: 1.3rem;
+      }
+      .body-row {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .crest {
+        margin-left: 0;
+        min-width: 0;
+      }
+    }
+
+    .blurb {
+      font-size: 0.96rem;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+
+    .blurb strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .cta-group {
+      margin-top: 1.3rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.8rem 1.1rem;
+    }
+
+    .btn-primary {
+      border: none;
+      cursor: pointer;
+      padding: 0.85rem 1.55rem;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: linear-gradient(120deg, #facc15, #eab308);
+      color: #1f2937;
+      box-shadow:
+        0 16px 40px rgba(0,0,0,0.7),
+        0 0 0 1px rgba(248,250,252,0.3);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, opacity 0.12s ease-out;
+      white-space: nowrap;
+    }
+
+    .btn-primary span.icon {
+      font-size: 1.1rem;
+      transform: translateY(1px);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 22px 55px rgba(0,0,0,0.78),
+        0 0 0 1px rgba(248,250,252,0.38);
+      opacity: 0.97;
+    }
+
+    .btn-primary:active {
+      transform: translateY(1px);
+      box-shadow:
+        0 10px 24px rgba(0,0,0,0.7),
+        0 0 0 1px rgba(248,250,252,0.32);
+    }
+
+    .secondary-link {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .secondary-link a {
+      color: #93c5fd;
+      text-decoration: none;
+    }
+
+    .secondary-link a:hover {
+      text-decoration: underline;
+    }
+
+    .info-card {
+      border-radius: 1.1rem;
+      border: 1px solid rgba(148,163,184,0.6);
+      padding: 1.0rem 1.1rem;
+      background: radial-gradient(circle at top, rgba(15,23,42,0.92), rgba(15,23,42,1));
+      font-size: 0.82rem;
+    }
+
+    .info-title {
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.8rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .info-label {
+      color: var(--muted);
+    }
+
+    .info-value {
+      font-weight: 500;
+      text-align: right;
+    }
+
+    .info-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.4rem;
+    }
+
+    .info-pill {
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.6);
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .info-note {
+      margin-top: 0.65rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .footer {
+      margin-top: 1.7rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(51,65,85,0.9);
+      padding-top: 0.8rem;
+    }
+
+    @media (max-width: 560px) {
+      .footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    .brand-mark {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+
+    .brand-mark span {
+      color: var(--accent-soft);
+    }
+  </style>
 </head>
-<body style="background:#0d1117; color:white; font-family:sans-serif; text-align:center;">
-  <h2 style="margin-top:40px;">Loading GameDay…</h2>
+<body>
+  <div class="shell">
+    <main class="card">
+      <div class="card-inner">
+
+        <div class="tag-row">
+          <div class="tag">
+            <span class="tag-dot"></span>
+            Player Development Hub • Skater & Goalie Profiles
+          </div>
+          <div class="badge">GameDayHQ Tool</div>
+        </div>
+
+        <div class="title-row">
+          <div class="title-text">
+            <h1>Player Development <span>Hub</span></h1>
+            <p>
+              A modern, coach-friendly space to track reports, tags, projections, and strengths for every player
+              in your system — all in one clean, shareable hub.
+            </p>
+          </div>
+
+          <div class="crest">
+            <div class="crest-top">Today’s workspace</div>
+            <div class="crest-main">GAME<span>DAYHQ</span></div>
+            <div class="crest-bottom">Scouting & Development</div>
+          </div>
+        </div>
+
+        <div class="body-row">
+          <section>
+            <p class="blurb">
+              The <strong>Player Development Hub</strong> connects your game data, scouting notes, and coaching
+              instincts into one place. Quickly flip between players, see their history at a glance, and record
+              meaningful feedback you’ll actually use later.
+            </p>
+
+            <div class="cta-group">
+              <button
+                class="btn-primary"
+                onclick="window.location.href='https://script.google.com/macros/s/AKfycbyWWG5eR1CGy6uqVweKO6wMrJu-5PHvKSnK7aB8HcdKBUC1V41fyniXacRFI_40uph1/exec';">
+                <span>Open Player Development Hub</span>
+                <span class="icon">↗</span>
+              </button>
+
+              <div class="secondary-link">
+                Having trouble?  
+                <a href="https://script.google.com/macros/s/AKfycbyWWG5eR1CGy6uqVweKO6wMrJu-5PHvKSnK7aB8HcdKBUC1V41fyniXacRFI_40uph1/exec"
+                   target="_blank" rel="noopener">
+                  Tap here to open directly.
+                </a>
+              </div>
+            </div>
+          </section>
+
+          <aside class="info-card">
+            <div class="info-title">Inside the Hub</div>
+
+            <div class="info-row">
+              <div class="info-label">Scouting reports</div>
+              <div class="info-value">Game-by-game notes & ratings</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label">Tags & projections</div>
+              <div class="info-value">Quick filters & future outlook</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label">Snapshots</div>
+              <div class="info-value">Strengths & areas to develop</div>
+            </div>
+
+            <div class="info-pill-row">
+              <div class="info-pill">Coach & scout friendly</div>
+              <div class="info-pill">Mobile-first layout</div>
+              <div class="info-pill">Simple sharing</div>
+            </div>
+
+            <p class="info-note">
+              Best used on a laptop or tablet when you’re doing deeper review, but quick enough to update
+              between periods at the rink.
+            </p>
+          </aside>
+        </div>
+
+        <footer class="footer">
+          <div class="brand-mark">
+            <span>GameDayHQ</span> • Player Development Hub
+          </div>
+          <div>Built on Google Sheets + Apps Script for real-world coaches.</div>
+        </footer>
+      </div>
+    </main>
+  </div>
 </body>
 </html>
