@@ -8,21 +8,32 @@
 
   <style>
     :root {
-      --bg: #020617;        
-      --accent: #dc2626;    
+      --bg: #020617;
+      --bg-soft: #020617;
+      --accent: #f97316;
+      --accent-strong: #dc2626;
       --text: #e5e7eb;
       --muted: #9ca3af;
-      --border: rgba(148, 163, 184, 0.4);
+      --border: rgba(148, 163, 184, 0.45);
       --border-subtle: rgba(148, 163, 184, 0.25);
+      --shadow-soft: 0 24px 60px rgba(15, 23, 42, 0.95);
+      --radius-card: 1.25rem;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
       min-height: 100vh;
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top left, #0f172a 0, #020617 50%, #000 100%);
+      background:
+        radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 55%),
+        radial-gradient(circle at top right, rgba(248, 113, 113, 0.2), transparent 60%),
+        radial-gradient(circle at bottom, rgba(15, 23, 42, 0.95), #020617);
       color: var(--text);
       display: flex;
       align-items: stretch;
@@ -33,46 +44,75 @@
       width: 100%;
       max-width: 1120px;
       margin: 0 auto;
-      padding: 2rem 1.5rem 3rem;
+      padding: 2.25rem 1.5rem 3.25rem;
       display: flex;
       flex-direction: column;
       gap: 2rem;
     }
 
-    /* Top bar */
+    @media (min-width: 768px) {
+      .page {
+        padding: 3rem 2rem 4rem;
+        gap: 2.4rem;
+      }
+    }
+
+    /* Top bar / branding */
     .top-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
+      gap: 1.2rem;
+    }
+
+    @media (max-width: 640px) {
+      .top-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
 
     .brand-lockup {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .brand-logo-wrap {
+      width: 68px;
+      height: 68px;
+      border-radius: 1.4rem;
+      padding: 4px;
+      background: radial-gradient(circle at 20% 0, rgba(248, 250, 252, 0.5), transparent 40%),
+                  radial-gradient(circle at 80% 100%, rgba(248, 113, 113, 0.28), transparent 55%),
+                  #020617;
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.85),
+        0 0 0 1px rgba(15, 23, 42, 0.95);
       display: flex;
       align-items: center;
-      gap: 1rem;
+      justify-content: center;
     }
 
     .brand-logo {
-      width: 48px;
-      height: 48px;
+      width: 100%;
+      height: 100%;
       object-fit: contain;
-      border-radius: 0.5rem;
-      border: 1px solid var(--border-subtle);
-      background: #0f172a;
-      padding: 4px;
+      border-radius: 1.1rem;
+      background: #020617;
     }
 
     .brand-text {
       display: flex;
       flex-direction: column;
-      gap: 0.1rem;
+      gap: 0.06rem;
     }
 
     .brand-title {
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       font-weight: 700;
-      letter-spacing: 0.13em;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
     }
 
@@ -83,18 +123,18 @@
       text-transform: uppercase;
     }
 
-    /* Tagline */
     .tagline-pill {
       display: inline-flex;
       align-items: center;
       gap: 0.45rem;
       border-radius: 999px;
-      padding: 0.35rem 0.85rem;
+      padding: 0.38rem 0.9rem;
       background: rgba(15, 23, 42, 0.9);
       border: 1px solid var(--border-subtle);
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       color: var(--muted);
       white-space: nowrap;
+      backdrop-filter: blur(10px);
     }
 
     .tagline-dot {
@@ -102,14 +142,15 @@
       height: 8px;
       border-radius: 999px;
       background: #22c55e;
-      box-shadow: 0 0 8px rgba(34, 197, 94, 0.9);
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.95);
     }
 
-    /* Hero + product cards */
+    /* Hero layout */
     .hero {
       display: grid;
       grid-template-columns: minmax(0, 2fr);
       gap: 2rem;
+      align-items: stretch;
     }
 
     @media (min-width: 900px) {
@@ -118,9 +159,26 @@
       }
     }
 
+    .hero-main {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
     .hero-heading {
-      font-size: 2.5rem;
+      font-size: 2.1rem;
       line-height: 1.2;
+      letter-spacing: 0.03em;
+    }
+
+    @media (min-width: 768px) {
+      .hero-heading {
+        font-size: 2.5rem;
+      }
+    }
+
+    .hero-heading span {
+      display: inline-block;
     }
 
     .hero-highlight {
@@ -131,19 +189,65 @@
     }
 
     .hero-body {
-      font-size: 1rem;
-      line-height: 1.6;
+      font-size: 0.98rem;
+      line-height: 1.7;
       color: var(--muted);
-      max-width: 38rem;
+      max-width: 39rem;
+    }
+
+    .hero-metas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
     }
 
     .meta-pill {
       border-radius: 999px;
-      padding: 0.35rem 0.8rem;
+      padding: 0.35rem 0.85rem;
       border: 1px solid var(--border-subtle);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
       background: rgba(15, 23, 42, 0.9);
+    }
+
+    .meta-pill-strong {
+      border-color: rgba(248, 113, 113, 0.7);
+      color: #fecaca;
+      background: radial-gradient(circle at 0 0, rgba(248, 113, 113, 0.18), rgba(15, 23, 42, 0.96));
+    }
+
+    .meta-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(248, 250, 252, 0.8);
+      opacity: 0.9;
+    }
+
+    .supporting {
+      margin-top: 0.7rem;
+      padding-top: 1.4rem;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.4rem;
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
+    .support-block {
+      max-width: 18rem;
+    }
+
+    .support-title {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-bottom: 0.3rem;
+      color: #e5e7eb;
     }
 
     /* Product cards */
@@ -153,88 +257,265 @@
       gap: 1rem;
     }
 
+    @media (min-width: 640px) and (max-width: 899px) {
+      .products {
+        flex-direction: row;
+      }
+    }
+
     .product-card {
-      padding: 1.2rem 1.3rem;
-      border-radius: 1rem;
-      background: rgba(15, 23, 42, 0.95);
-      border: 1px solid rgba(248, 113, 113, 0.4);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+      position: relative;
+      padding: 1.2rem 1.3rem 1.35rem;
+      border-radius: var(--radius-card);
+      background: radial-gradient(circle at 0 0, rgba(248, 113, 113, 0.35), rgba(15, 23, 42, 0.97));
+      border: 1px solid rgba(248, 113, 113, 0.65);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .product-card.program {
+      background: radial-gradient(circle at 0 0, rgba(59, 130, 246, 0.35), rgba(15, 23, 42, 0.97));
+      border-color: rgba(96, 165, 250, 0.7);
+    }
+
+    .product-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #fed7d7;
+      opacity: 0.95;
     }
 
     .product-title {
-      font-size: 1.3rem;
+      margin-top: 0.25rem;
+      font-size: 1.28rem;
       font-weight: 700;
-      margin-top: 0.3rem;
+      letter-spacing: 0.03em;
     }
 
     .product-tagline {
+      margin-top: 0.25rem;
       font-size: 0.9rem;
       color: #fee2e2;
+      opacity: 0.9;
     }
 
     .product-body {
       margin-top: 0.75rem;
-      font-size: 0.9rem;
-      line-height: 1.55;
+      font-size: 0.88rem;
+      line-height: 1.6;
       color: #f9fafb;
+      opacity: 0.92;
+    }
+
+    .product-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.85rem;
+      font-size: 0.78rem;
+      color: #fed7d7;
+      opacity: 0.95;
+    }
+
+    .product-meta-pill {
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(254, 215, 170, 0.6);
+      background: rgba(15, 23, 42, 0.8);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .product-meta-pill span {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .product-actions {
+      margin-top: 1.1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
     }
 
     .btn {
+      position: relative;
       border-radius: 999px;
-      padding: 0.7rem 1.15rem;
-      text-decoration: none;
+      padding: 0.6rem 1.15rem;
       font-size: 0.88rem;
       font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border: 1px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-      margin-top: 1rem;
-      cursor: pointer;
+      transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease, border-color 140ms ease;
+      will-change: transform;
+      white-space: nowrap;
     }
 
     .btn-primary {
-      background: #f97316;
+      background: var(--accent);
+      border-color: #fed7aa;
       color: #111827;
-      border: 1px solid #fed7aa;
+      box-shadow: 0 14px 30px rgba(248, 113, 22, 0.6);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 36px rgba(248, 113, 22, 0.8);
+      background: #fb923c;
     }
 
     .btn-secondary {
       background: rgba(15, 23, 42, 0.96);
+      border-color: rgba(148, 163, 184, 0.9);
       color: var(--text);
-      border: 1px solid rgba(148, 163, 184, 0.9);
+      box-shadow: 0 12px 26px rgba(15, 23, 42, 0.9);
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-1px);
+      border-color: rgba(226, 232, 240, 0.9);
+      background: rgba(15, 23, 42, 0.98);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border-color: rgba(148, 163, 184, 0.6);
+      color: var(--muted);
+      font-size: 0.82rem;
+      text-transform: none;
+      letter-spacing: 0.02em;
+      padding: 0.5rem 0.9rem;
+    }
+
+    .btn-arrow {
+      font-size: 0.9rem;
+      transform: translateX(0);
+      transition: transform 140ms ease;
+    }
+
+    .btn:hover .btn-arrow {
+      transform: translateX(3px);
+    }
+
+    /* Demo / contact panel */
+    .demo-panel {
+      margin-top: 1.75rem;
+      padding: 1.15rem 1.1rem;
+      border-radius: 1rem;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.9));
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem 1.5rem;
+      align-items: center;
+    }
+
+    @media (min-width: 700px) {
+      .demo-panel {
+        padding: 1.15rem 1.4rem;
+      }
+    }
+
+    .demo-text {
+      flex: 1 1 210px;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .demo-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-bottom: 0.25rem;
+      color: #e5e7eb;
+    }
+
+    .demo-email {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.82rem;
+      color: #e5e7eb;
+    }
+
+    .demo-email a {
+      color: #fde68a;
+      text-decoration: none;
+    }
+
+    .demo-email a:hover {
+      text-decoration: underline;
     }
 
     /* Footer */
     .footer {
-      margin-top: 2rem;
-      padding-top: 1.2rem;
-      border-top: 1px solid rgba(148,163,184,0.2);
-      display: flex;
-      justify-content: center;
+      margin-top: 1.8rem;
+      padding-top: 1.3rem;
+      border-top: 1px solid rgba(15, 23, 42, 0.95);
+      font-size: 0.78rem;
       color: var(--muted);
-      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0.85;
+    }
+
+    .footer-logo-wrap {
+      width: 26px;
+      height: 26px;
+      border-radius: 0.7rem;
+      padding: 2px;
+      background: #020617;
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .footer-logo {
-      width: 26px;
-      height: 26px;
+      width: 100%;
+      height: 100%;
       object-fit: contain;
-      border-radius: 0.4rem;
-      border: 1px solid var(--border-subtle);
-      background: #0f172a;
-      padding: 3px;
-      margin-right: 0.5rem;
+      border-radius: 0.55rem;
+    }
+
+    .footer-label {
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.7rem;
+    }
+
+    .footer-sep {
+      opacity: 0.45;
+    }
+
+    .footer-note {
+      font-size: 0.7rem;
     }
   </style>
 </head>
-
 <body>
   <main class="page">
-
-    <!-- TOP BAR -->
+    <!-- Top bar -->
     <header class="top-bar">
       <div class="brand-lockup">
-        <img src="gamedayhq-logo.png" class="brand-logo" alt="GameDayHQ Logo">
+        <div class="brand-logo-wrap">
+          <img src="gamedayhq-logo.png" class="brand-logo" alt="GameDayHQ Logo">
+        </div>
         <div class="brand-text">
           <div class="brand-title">GameDayHQ</div>
           <div class="brand-subtitle">Built for teams, not spreadsheets</div>
@@ -243,69 +524,163 @@
 
       <div class="tagline-pill">
         <span class="tagline-dot"></span>
-        Live for coaches, scouts & fans
+        Live for coaches, scouts &amp; families
       </div>
     </header>
 
-    <!-- HERO SECTION -->
+    <!-- Hero + products -->
     <section class="hero">
-      <div>
+      <div class="hero-main">
         <h1 class="hero-heading">
-          One home for your<br>
+          <span>One home for your</span><br />
           <span class="hero-highlight">Game Day Program</span>
-          & Player Development Hub.
+          <span>&amp; Player Development Hub.</span>
         </h1>
 
         <p class="hero-body">
           GameDayHQ brings your game experience and player evaluations together in one simple,
-          web-based platform.
+          web-based platform. Share a polished Game Day Program with families and fans, and track
+          player growth through a modern, organized Development Hub.
         </p>
 
-        <div style="display:flex; gap:0.8rem; flex-wrap:wrap; margin-top:1rem;">
-          <div class="meta-pill">No logins needed</div>
-          <div class="meta-pill">Mobile friendly</div>
-          <div class="meta-pill">Easy for coaches</div>
+        <div class="hero-metas">
+          <div class="meta-pill meta-pill-strong">
+            <span class="meta-dot"></span>
+            No logins or apps required
+          </div>
+          <div class="meta-pill">
+            <span class="meta-dot"></span>
+            Works on phones, tablets &amp; laptops
+          </div>
+          <div class="meta-pill">
+            <span class="meta-dot"></span>
+            Easy for coaches to update
+          </div>
+        </div>
+
+        <div class="supporting">
+          <div class="support-block">
+            <div class="support-title">Game Day Program</div>
+            Turn every game into an event with live rosters, player details, sponsor features,
+            and a clean digital experience families can open in seconds.
+          </div>
+          <div class="support-block">
+            <div class="support-title">Player Development Hub</div>
+            Capture scouting notes, strengths, and areas to grow across the season—then share
+            clear, organized feedback with your staff and players.
+          </div>
+        </div>
+
+        <!-- Demo / contact panel -->
+        <div class="demo-panel">
+          <div class="demo-text">
+            <div class="demo-title">Interested in using GameDayHQ with your team?</div>
+            <div>
+              Walk through a live demo of the Game Day Program and Player Development Hub, talk
+              through how you run your season, and see if GameDayHQ is a fit for your coaches,
+              players, and families.
+            </div>
+            <div class="demo-email" style="margin-top:0.4rem;">
+              Email: <a href="mailto:dsegberg@gmail.com?subject=GameDayHQ%20Demo%20Request&body=Hi%20Don%2C%0A%0AI'd%20like%20to%20book%20a%20demo%20of%20GameDayHQ.%0A%0ATeam%20name%3A%0ALevel%2Fage%20group%3A%0ACity%2Fassociation%3A%0A%0AThanks%2C%0A">
+                dsegberg@gmail.com
+              </a>
+            </div>
+          </div>
+          <a
+            class="btn btn-ghost"
+            href="mailto:dsegberg@gmail.com?subject=GameDayHQ%20Demo%20Request&body=Hi%20Don%2C%0A%0AI'd%20like%20to%20book%20a%20demo%20of%20GameDayHQ.%0A%0ATeam%20name%3A%0ALevel%2Fage%20group%3A%0ACity%2Fassociation%3A%0A%0AThanks%2C%0A"
+          >
+            Book a demo by email
+            <span class="btn-arrow">↗</span>
+          </a>
         </div>
       </div>
 
       <aside class="products">
-
-        <!-- Development Hub -->
+        <!-- Player Development Hub card -->
         <article class="product-card">
+          <div class="product-label">Player Development Hub</div>
           <div class="product-title">Player Development Hub</div>
-          <div class="product-tagline">Scouting, notes & growth.</div>
+          <div class="product-tagline">Scouting, notes &amp; growth in one place.</div>
 
           <p class="product-body">
-            Organized reports, strengths, and areas to grow across the season—designed to feel like a modern web app.
+            View clean, organized reports by player, track progress over the season, and keep
+            coaches aligned without juggling messy spreadsheets. Built on Google Sheets, designed
+            to feel like a modern web app.
           </p>
 
-          <a class="btn btn-primary" href="https://script.google.com/macros/s/AKfycbyWWG5eR1CGy6uqVweKO6wMrJu-5PHvKSnK7aB8HcdKBUC1V41fyniXacRFI_40uph1/exec">
-            Open Development Hub ↗
-          </a>
+          <div class="product-meta-row">
+            <div class="product-meta-pill">
+              <span>Coach Mode</span>
+            </div>
+            <div class="product-meta-pill">
+              <span>Player-Friendly Views</span>
+            </div>
+            <div class="product-meta-pill">
+              <span>Season History</span>
+            </div>
+          </div>
+
+          <div class="product-actions">
+            <a
+              class="btn btn-primary"
+              href="https://script.google.com/macros/s/AKfycbyWWG5eR1CGy6uqVweKO6wMrJu-5PHvKSnK7aB8HcdKBUC1V41fyniXacRFI_40uph1/exec"
+            >
+              Open Development Hub
+              <span class="btn-arrow">↗</span>
+            </a>
+          </div>
         </article>
 
-        <!-- Game Day Program -->
-        <article class="product-card">
+        <!-- Game Day Program card -->
+        <article class="product-card program">
+          <div class="product-label">Game Day Program</div>
           <div class="product-title">Rangers Game Day Program</div>
           <div class="product-tagline">A polished, digital program for every game.</div>
 
           <p class="product-body">
-            Share rosters, player info, sponsor logos, and key game details through one clean modern link.
+            Share rosters, player info, sponsor logos, and key game details through a single link.
+            Perfect for fans in the stands or families following along from home.
           </p>
 
-          <a class="btn btn-secondary" href="https://www.rangersgameday.ca">
-            Open Game Day Program ↗
-          </a>
+          <div class="product-meta-row">
+            <div class="product-meta-pill">
+              <span>Mobile-Friendly</span>
+            </div>
+            <div class="product-meta-pill">
+              <span>Sponsor Ready</span>
+            </div>
+            <div class="product-meta-pill">
+              <span>Instant Updates</span>
+            </div>
+          </div>
+
+          <div class="product-actions">
+            <a
+              class="btn btn-secondary"
+              href="https://www.rangersgameday.ca"
+            >
+              Open Game Day Program
+              <span class="btn-arrow">↗</span>
+            </a>
+          </div>
         </article>
       </aside>
     </section>
 
-    <!-- FOOTER -->
+    <!-- Footer -->
     <footer class="footer">
-      <img src="gamedayhq-logo.png" class="footer-logo">
-      <span>GameDayHQ • A simple toolkit for teams & families</span>
+      <div class="footer-inner">
+        <div class="footer-logo-wrap">
+          <img src="gamedayhq-logo.png" class="footer-logo" alt="GameDayHQ Logo small">
+        </div>
+        <div>
+          <span class="footer-label">GameDayHQ</span>
+          <span class="footer-sep">•</span>
+          <span class="footer-note">A simple digital toolkit for coaches, teams &amp; families.</span>
+        </div>
+      </div>
     </footer>
-
   </main>
 </body>
 </html>
