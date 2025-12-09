@@ -69,9 +69,9 @@
     }
 
     .brand-mark {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
+      width: 56px;   /* increased from 42px */
+      height: 56px;  /* increased from 42px */
+      border-radius: 18px;
       background: radial-gradient(circle at 30% 20%, #ffffff 0, #facc15 12%, #92400e 58%, #000 100%);
       display: flex;
       align-items: center;
@@ -81,15 +81,11 @@
       overflow: hidden;
     }
 
-    .brand-mark-inner {
-      font-family: "Oswald", system-ui, sans-serif;
-      font-weight: 600;
-      font-size: 1.1rem;
-      letter-spacing: 0.03em;
-      color: #111827;
-      background: rgba(248, 250, 252, 0.75);
-      padding: 4px 8px;
-      border-radius: 999px;
+    .brand-logo {
+      max-width: 100%;
+      max-height: 100%;
+      display: block;
+      object-fit: contain;
     }
 
     .brand-text-block {
@@ -527,7 +523,7 @@
     <header>
       <div class="brand-left">
         <div class="brand-mark">
-          <div class="brand-mark-inner">GDHQ</div>
+          <img src="gamedayhq-logo.png" alt="GameDayHQ logo" class="brand-logo">
         </div>
         <div class="brand-text-block">
           <div class="brand-title">GameDayHQ</div>
