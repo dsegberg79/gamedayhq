@@ -2,22 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>GameDayHQ | Game Program & Player Development Hub</title>
+  <title>GameDayHQ | Suite of Tools for Hockey Teams</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="GameDayHQ brings your team’s Game Day Program and Player Development Hub together in one simple, powerful platform." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg: #020617;
-      --bg-soft: #020617;
-      --accent: #f97316;
-      --accent-strong: #dc2626;
-      --text: #e5e7eb;
-      --muted: #9ca3af;
-      --border: rgba(148, 163, 184, 0.45);
-      --border-subtle: rgba(148, 163, 184, 0.25);
-      --shadow-soft: 0 24px 60px rgba(15, 23, 42, 0.95);
-      --radius-card: 1.25rem;
+      --bg: #020617;          /* very dark navy */
+      --card: #020617;        /* card background (same, but with shadow) */
+      --border-subtle: #1f2937;
+      --accent: #facc15;      /* yellow accent */
+      --accent-soft: #fef3c7;
+      --accent-2: #22d3ee;    /* cyan accent */
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --pill-bg: #111827;
+      --pill-border: #374151;
+      --pill-text: #e5e7eb;
+      --shadow-soft: 0 22px 45px rgba(15, 23, 42, 0.85);
+      --radius-lg: 18px;
+      --radius-pill: 999px;
+      --transition-fast: 180ms ease-out;
     }
 
     * {
@@ -27,665 +36,709 @@
     }
 
     body {
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top, #0b1120 0, #020617 52%, #000 100%);
+      color: var(--text-main);
       min-height: 100vh;
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 55%),
-        radial-gradient(circle at top right, rgba(248, 113, 113, 0.2), transparent 60%),
-        radial-gradient(circle at bottom, rgba(15, 23, 42, 0.95), #020617);
-      color: var(--text);
       display: flex;
       align-items: stretch;
       justify-content: center;
+      padding: 20px;
     }
 
     .page {
       width: 100%;
-      max-width: 1120px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 2.25rem 1.5rem 3.25rem;
       display: flex;
       flex-direction: column;
-      gap: 2rem;
+      gap: 20px;
     }
 
-    @media (min-width: 768px) {
-      .page {
-        padding: 3rem 2rem 4rem;
-        gap: 2.4rem;
-      }
-    }
-
-    /* Top bar / branding */
-    .top-bar {
+    header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1.2rem;
+      gap: 16px;
     }
 
-    @media (max-width: 640px) {
-      .top-bar {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
-
-    .brand-lockup {
-      display: inline-flex;
+    .brand-left {
+      display: flex;
       align-items: center;
-      gap: 0.9rem;
+      gap: 14px;
     }
 
-    .brand-logo-wrap {
-      width: 68px;
-      height: 68px;
-      border-radius: 1.4rem;
-      padding: 4px;
-      background: radial-gradient(circle at 20% 0, rgba(248, 250, 252, 0.5), transparent 40%),
-                  radial-gradient(circle at 80% 100%, rgba(248, 113, 113, 0.28), transparent 55%),
-                  #020617;
-      border: 1px solid rgba(148, 163, 184, 0.55);
-      box-shadow:
-        0 18px 45px rgba(0, 0, 0, 0.85),
-        0 0 0 1px rgba(15, 23, 42, 0.95);
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: radial-gradient(circle at 30% 20%, #ffffff 0, #facc15 12%, #92400e 58%, #000 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-
-    .brand-logo {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      border-radius: 1.1rem;
-      background: #020617;
-    }
-
-    .brand-text {
-      display: flex;
-      flex-direction: column;
-      gap: 0.06rem;
-    }
-
-    .brand-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-    }
-
-    .brand-subtitle {
-      font-size: 0.8rem;
-      color: var(--muted);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .tagline-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      border-radius: 999px;
-      padding: 0.38rem 0.9rem;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid var(--border-subtle);
-      font-size: 0.78rem;
-      color: var(--muted);
-      white-space: nowrap;
-      backdrop-filter: blur(10px);
-    }
-
-    .tagline-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: #22c55e;
-      box-shadow: 0 0 10px rgba(34, 197, 94, 0.95);
-    }
-
-    /* Hero layout */
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 2fr);
-      gap: 2rem;
-      align-items: stretch;
-    }
-
-    @media (min-width: 900px) {
-      .hero {
-        grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.2fr);
-      }
-    }
-
-    .hero-main {
-      display: flex;
-      flex-direction: column;
-      gap: 1.2rem;
-    }
-
-    .hero-heading {
-      font-size: 2.1rem;
-      line-height: 1.2;
-      letter-spacing: 0.03em;
-    }
-
-    @media (min-width: 768px) {
-      .hero-heading {
-        font-size: 2.5rem;
-      }
-    }
-
-    .hero-heading span {
-      display: inline-block;
-    }
-
-    .hero-highlight {
-      background: linear-gradient(120deg, #f97316, #dc2626, #fb7185);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .hero-body {
-      font-size: 0.98rem;
-      line-height: 1.7;
-      color: var(--muted);
-      max-width: 39rem;
-    }
-
-    .hero-metas {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-    }
-
-    .meta-pill {
-      border-radius: 999px;
-      padding: 0.35rem 0.85rem;
-      border: 1px solid var(--border-subtle);
-      font-size: 0.78rem;
-      color: var(--muted);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: rgba(15, 23, 42, 0.9);
-    }
-
-    .meta-pill-strong {
-      border-color: rgba(248, 113, 113, 0.7);
-      color: #fecaca;
-      background: radial-gradient(circle at 0 0, rgba(248, 113, 113, 0.18), rgba(15, 23, 42, 0.96));
-    }
-
-    .meta-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: rgba(248, 250, 252, 0.8);
-      opacity: 0.9;
-    }
-
-    .supporting {
-      margin-top: 0.7rem;
-      padding-top: 1.4rem;
-      border-top: 1px solid var(--border-subtle);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.4rem;
-      font-size: 0.86rem;
-      color: var(--muted);
-    }
-
-    .support-block {
-      max-width: 18rem;
-    }
-
-    .support-title {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      margin-bottom: 0.3rem;
-      color: #e5e7eb;
-    }
-
-    /* Product cards */
-    .products {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    @media (min-width: 640px) and (max-width: 899px) {
-      .products {
-        flex-direction: row;
-      }
-    }
-
-    .product-card {
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.8);
       position: relative;
-      padding: 1.2rem 1.3rem 1.35rem;
-      border-radius: var(--radius-card);
-      background: radial-gradient(circle at 0 0, rgba(248, 113, 113, 0.35), rgba(15, 23, 42, 0.97));
-      border: 1px solid rgba(248, 113, 113, 0.65);
-      box-shadow: var(--shadow-soft);
       overflow: hidden;
     }
 
-    .product-card.program {
-      background: radial-gradient(circle at 0 0, rgba(59, 130, 246, 0.35), rgba(15, 23, 42, 0.97));
-      border-color: rgba(96, 165, 250, 0.7);
-    }
-
-    .product-label {
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: #fed7d7;
-      opacity: 0.95;
-    }
-
-    .product-title {
-      margin-top: 0.25rem;
-      font-size: 1.28rem;
-      font-weight: 700;
+    .brand-mark-inner {
+      font-family: "Oswald", system-ui, sans-serif;
+      font-weight: 600;
+      font-size: 1.1rem;
       letter-spacing: 0.03em;
-    }
-
-    .product-tagline {
-      margin-top: 0.25rem;
-      font-size: 0.9rem;
-      color: #fee2e2;
-      opacity: 0.9;
-    }
-
-    .product-body {
-      margin-top: 0.75rem;
-      font-size: 0.88rem;
-      line-height: 1.6;
-      color: #f9fafb;
-      opacity: 0.92;
-    }
-
-    .product-meta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: 0.85rem;
-      font-size: 0.78rem;
-      color: #fed7d7;
-      opacity: 0.95;
-    }
-
-    .product-meta-pill {
-      padding: 0.25rem 0.6rem;
+      color: #111827;
+      background: rgba(248, 250, 252, 0.75);
+      padding: 4px 8px;
       border-radius: 999px;
-      border: 1px solid rgba(254, 215, 170, 0.6);
-      background: rgba(15, 23, 42, 0.8);
+    }
+
+    .brand-text-block {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand-title {
+      font-family: "Oswald", system-ui, sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #f9fafb;
+    }
+
+    .brand-subtitle {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .badge-beta {
+      border-radius: var(--radius-pill);
+      border: 1px solid #4b5563;
+      padding: 6px 12px;
+      font-size: 0.78rem;
       display: inline-flex;
       align-items: center;
-      gap: 0.35rem;
+      gap: 8px;
+      background: rgba(15, 23, 42, 0.8);
     }
 
-    .product-meta-pill span {
-      font-size: 0.72rem;
+    .badge-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #a7f3d0 0, #22c55e 40%, #14532d 100%);
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.8);
+    }
+
+    main {
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 60%),
+                  radial-gradient(circle at top right, rgba(250, 204, 21, 0.18), transparent 52%),
+                  radial-gradient(circle at bottom, rgba(148, 163, 184, 0.16), transparent 55%),
+                  var(--bg);
+      border-radius: 24px;
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      box-shadow: var(--shadow-soft);
+      padding: 20px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.6fr);
+      gap: 24px;
+    }
+
+    /* Hero side */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 18px;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      color: var(--accent-soft);
+    }
+
+    .hero-kicker-pill {
+      border-radius: var(--radius-pill);
+      padding: 4px 10px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(15, 23, 42, 0.85);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-kicker-tag {
+      border-radius: var(--radius-pill);
+      padding: 4px 10px;
+      border: 1px solid rgba(56, 189, 248, 0.5);
+      background: rgba(8, 47, 73, 0.85);
+      color: #e0f2fe;
+    }
+
+    .hero-title {
+      font-family: "Oswald", system-ui, sans-serif;
+      font-size: clamp(2.2rem, 3vw, 2.8rem);
+      line-height: 1.05;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.08em;
     }
 
-    .product-actions {
-      margin-top: 1.1rem;
+    .hero-title span {
+      color: var(--accent);
+    }
+
+    .hero-subtitle {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      max-width: 32rem;
+    }
+
+    .hero-subtitle strong {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    .hero-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.6rem;
+      gap: 10px;
+      margin-top: 4px;
     }
 
-    .btn {
-      position: relative;
-      border-radius: 999px;
-      padding: 0.6rem 1.15rem;
+    .btn-primary,
+    .btn-ghost {
+      border-radius: var(--radius-pill);
+      padding: 10px 18px;
       font-size: 0.88rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
       border: 1px solid transparent;
       cursor: pointer;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
-      transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease, border-color 140ms ease;
-      will-change: transform;
+      gap: 8px;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast),
+                  background var(--transition-fast), border-color var(--transition-fast),
+                  color var(--transition-fast);
       white-space: nowrap;
     }
 
     .btn-primary {
-      background: var(--accent);
-      border-color: #fed7aa;
+      background: linear-gradient(135deg, #facc15, #f97316);
       color: #111827;
-      box-shadow: 0 14px 30px rgba(248, 113, 22, 0.6);
+      font-weight: 600;
+      box-shadow: 0 16px 30px rgba(248, 250, 252, 0.16);
     }
 
     .btn-primary:hover {
       transform: translateY(-1px);
-      box-shadow: 0 16px 36px rgba(248, 113, 22, 0.8);
-      background: #fb923c;
-    }
-
-    .btn-secondary {
-      background: rgba(15, 23, 42, 0.96);
-      border-color: rgba(148, 163, 184, 0.9);
-      color: var(--text);
-      box-shadow: 0 12px 26px rgba(15, 23, 42, 0.9);
-    }
-
-    .btn-secondary:hover {
-      transform: translateY(-1px);
-      border-color: rgba(226, 232, 240, 0.9);
-      background: rgba(15, 23, 42, 0.98);
+      box-shadow: 0 22px 40px rgba(248, 250, 252, 0.18);
     }
 
     .btn-ghost {
-      background: transparent;
-      border-color: rgba(148, 163, 184, 0.6);
-      color: var(--muted);
-      font-size: 0.82rem;
-      text-transform: none;
-      letter-spacing: 0.02em;
-      padding: 0.5rem 0.9rem;
+      background: rgba(15, 23, 42, 0.85);
+      border-color: rgba(148, 163, 184, 0.55);
+      color: var(--text-muted);
     }
 
-    .btn-arrow {
-      font-size: 0.9rem;
-      transform: translateX(0);
-      transition: transform 140ms ease;
+    .btn-ghost:hover {
+      background: rgba(17, 24, 39, 0.95);
+      color: #e5e7eb;
+      transform: translateY(-1px);
     }
 
-    .btn:hover .btn-arrow {
-      transform: translateX(3px);
+    .hero-footnote {
+      margin-top: 6px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
     }
 
-    /* Demo / contact panel */
-    .demo-panel {
-      margin-top: 1.75rem;
-      padding: 1.15rem 1.1rem;
-      border-radius: 1rem;
+    .hero-footnote strong {
+      color: var(--accent-soft);
+      font-weight: 500;
+    }
+
+    /* Apps grid */
+    .apps-panel {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 20px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      padding: 16px 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .apps-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 2px;
+    }
+
+    .apps-title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .apps-title {
+      font-size: 0.95rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+      font-family: "Oswald", system-ui, sans-serif;
+    }
+
+    .apps-subtitle {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .apps-pill {
+      font-size: 0.75rem;
+      border-radius: var(--radius-pill);
+      padding: 4px 10px;
       border: 1px solid rgba(148, 163, 184, 0.6);
-      background: linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.9));
+      color: #e5e7eb;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .apps-pill span {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 8px rgba(34, 197, 94, 0.7);
+    }
+
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .app-card {
+      position: relative;
+      border-radius: 16px;
+      padding: 12px 12px 13px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: radial-gradient(circle at top left, rgba(248, 250, 252, 0.06), transparent 55%),
+                  radial-gradient(circle at bottom right, rgba(248, 250, 252, 0.03), transparent 60%),
+                  #020617;
+      box-shadow: 0 16px 28px rgba(15, 23, 42, 0.85);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow: hidden;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+    }
+
+    .app-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(250, 204, 21, 0.14), transparent 55%);
+      opacity: 0;
+      transition: opacity var(--transition-fast);
+      pointer-events: none;
+    }
+
+    .app-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 24px 40px rgba(15, 23, 42, 0.95);
+      border-color: rgba(250, 204, 21, 0.75);
+    }
+
+    .app-card:hover::before {
+      opacity: 1;
+    }
+
+    .app-tag-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .app-tag {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      color: #e5e7eb;
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .app-mode-pill {
+      font-size: 0.7rem;
+      padding: 3px 7px;
+      border-radius: var(--radius-pill);
+      border: 1px dashed rgba(148, 163, 184, 0.7);
+      color: var(--text-muted);
+    }
+
+    .app-title {
+      font-size: 0.98rem;
+      font-weight: 500;
+      color: #f9fafb;
+    }
+
+    .app-title span {
+      color: var(--accent);
+    }
+
+    .app-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      min-height: 2.4em;
+    }
+
+    .app-meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.9rem 1.5rem;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .app-meta-pill {
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: rgba(15, 23, 42, 0.95);
+      color: #9ca3af;
+    }
+
+    .app-actions {
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
       align-items: center;
+      gap: 8px;
     }
 
-    @media (min-width: 700px) {
-      .demo-panel {
-        padding: 1.15rem 1.4rem;
-      }
+    .app-links {
+      display: flex;
+      gap: 8px;
     }
 
-    .demo-text {
-      flex: 1 1 210px;
-      font-size: 0.88rem;
-      color: var(--muted);
+    .app-button {
+      font-size: 0.76rem;
+      border-radius: var(--radius-pill);
+      padding: 6px 10px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      background: rgba(15, 23, 42, 0.9);
+      color: #e5e7eb;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background var(--transition-fast), transform var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+      white-space: nowrap;
     }
 
-    .demo-title {
-      font-size: 0.9rem;
+    .app-button.primary {
+      border-color: rgba(250, 204, 21, 0.9);
+      background: linear-gradient(135deg, #facc15, #f97316);
+      color: #111827;
       font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      margin-bottom: 0.25rem;
-      color: #e5e7eb;
     }
 
-    .demo-email {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 0.82rem;
-      color: #e5e7eb;
+    .app-button.primary:hover {
+      transform: translateY(-1px);
     }
 
-    .demo-email a {
-      color: #fde68a;
+    .app-button.secondary:hover {
+      background: rgba(17, 24, 39, 0.95);
+      color: #f9fafb;
+      transform: translateY(-1px);
+    }
+
+    .app-button span.chevron {
+      font-size: 0.9rem;
+    }
+
+    .app-note {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+    }
+
+    footer {
+      margin-top: 6px;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .footer-link {
+      color: var(--accent-2);
       text-decoration: none;
     }
 
-    .demo-email a:hover {
+    .footer-link:hover {
       text-decoration: underline;
     }
 
-    /* Footer */
-    .footer {
-      margin-top: 1.8rem;
-      padding-top: 1.3rem;
-      border-top: 1px solid rgba(15, 23, 42, 0.95);
-      font-size: 0.78rem;
-      color: var(--muted);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    /* Responsive */
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 18px;
+      }
     }
 
-    .footer-inner {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      opacity: 0.85;
-    }
+    @media (max-width: 640px) {
+      body {
+        padding: 14px;
+      }
 
-    .footer-logo-wrap {
-      width: 26px;
-      height: 26px;
-      border-radius: 0.7rem;
-      padding: 2px;
-      background: #020617;
-      border: 1px solid var(--border-subtle);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
 
-    .footer-logo {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      border-radius: 0.55rem;
-    }
+      main {
+        padding: 14px;
+      }
 
-    .footer-label {
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      font-size: 0.7rem;
-    }
+      .apps-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
 
-    .footer-sep {
-      opacity: 0.45;
-    }
-
-    .footer-note {
-      font-size: 0.7rem;
+      .hero-title {
+        font-size: 1.9rem;
+      }
     }
   </style>
 </head>
 <body>
-  <main class="page">
-    <!-- Top bar -->
-    <header class="top-bar">
-      <div class="brand-lockup">
-        <div class="brand-logo-wrap">
-          <img src="gamedayhq-logo.png" class="brand-logo" alt="GameDayHQ Logo">
+  <div class="page">
+    <header>
+      <div class="brand-left">
+        <div class="brand-mark">
+          <div class="brand-mark-inner">GDHQ</div>
         </div>
-        <div class="brand-text">
+        <div class="brand-text-block">
           <div class="brand-title">GameDayHQ</div>
-          <div class="brand-subtitle">Built for teams, not spreadsheets</div>
+          <div class="brand-subtitle">A connected suite of tools for hockey teams & associations.</div>
         </div>
       </div>
-
-      <div class="tagline-pill">
-        <span class="tagline-dot"></span>
-        Live for coaches, scouts &amp; families
+      <div class="badge-beta">
+        <div class="badge-dot"></div>
+        <span>Live demo environment • Not production data</span>
       </div>
     </header>
 
-    <!-- Hero + products -->
-    <section class="hero">
-      <div class="hero-main">
-        <h1 class="hero-heading">
-          <span>One home for your</span><br />
-          <span class="hero-highlight">Game Day Program</span>
-          <span>&amp; Player Development Hub.</span>
+    <main>
+      <!-- HERO SIDE -->
+      <section class="hero">
+        <div class="hero-kicker">
+          <div class="hero-kicker-pill">
+            Built with Google Sheets + Apps Script
+          </div>
+          <div class="hero-kicker-tag">
+            For coaches · managers · volunteers
+          </div>
+        </div>
+
+        <h1 class="hero-title">
+          One hub for your<br><span>Game Day</span> operations.
         </h1>
 
-        <p class="hero-body">
-          If you’re like most coaches, you’re already living in spreadsheets, group chats,
-          and last-minute emails. GameDayHQ turns that into one clean link for your team:
-          a digital Game Day Program for families, and a Player Development Hub for your staff.
+        <p class="hero-subtitle">
+          GameDayHQ brings together <strong>four connected web apps</strong> that handle everything from 
+          game day programs and player scouting to tournament management and volunteer scheduling —
+          all powered by Google Sheets on the back end.
         </p>
 
-        <div class="hero-metas">
-          <div class="meta-pill meta-pill-strong">
-            <span class="meta-dot"></span>
-            No logins or apps required
-          </div>
-          <div class="meta-pill">
-            <span class="meta-dot"></span>
-            Works on phones, tablets &amp; laptops
-          </div>
-          <div class="meta-pill">
-            <span class="meta-dot"></span>
-            Runs quietly on Google Sheets
-          </div>
-        </div>
-
-        <div class="supporting">
-          <div class="support-block">
-            <div class="support-title">Game Day Program</div>
-            Instead of sending screenshots or paper lineups, you share one link.
-            Families see rosters, player details, sponsors, and game info in a format that
-            looks like a real pro-style program.
-          </div>
-          <div class="support-block">
-            <div class="support-title">Player Development Hub</div>
-            Your staff gets one place to drop game notes, strengths, and areas to work on.
-            No extra software—just a clean view that makes it easy to talk development
-            with players and parents when you need to.
-          </div>
-        </div>
-
-        <!-- Demo / contact panel -->
-        <div class="demo-panel">
-          <div class="demo-text">
-            <div class="demo-title">Want to see how this could work for your team?</div>
-            <div>
-              I can walk you through a live demo of the Game Day Program and Development Hub,
-              show you how I’m using it, and talk about how it might fit your age group and association.
-            </div>
-            <div style="margin-top:0.35rem;">
-              We’ll keep it simple—15–20 minutes, screenshare if you’d like, and lots of time for questions.
-            </div>
-            <div class="demo-email" style="margin-top:0.5rem;">
-              Email: <a href="mailto:dsegberg@gmail.com?subject=GameDayHQ%20Demo%20Request&body=Hi%20Don%2C%0A%0AI'd%20like%20to%20book%20a%20demo%20of%20GameDayHQ.%0A%0ATeam%20name%3A%0ALevel%2Fage%20group%3A%0ACity%2Fassociation%3A%0A%0AThanks%2C%0A">
-                dsegberg@gmail.com
-              </a>
-            </div>
-          </div>
-          <a
-            class="btn btn-ghost"
-            href="mailto:dsegberg@gmail.com?subject=GameDayHQ%20Demo%20Request&body=Hi%20Don%2C%0A%0AI'd%20like%20to%20book%20a%20demo%20of%20GameDayHQ.%0A%0ATeam%20name%3A%0ALevel%2Fage%20group%3A%0ACity%2Fassociation%3A%0A%0AThanks%2C%0A"
-          >
-            Book a demo by email
-            <span class="btn-arrow">↗</span>
+        <div class="hero-actions">
+          <!-- You can change this to a real email/booking link if you want -->
+          <a class="btn-primary" href="mailto:dsegberg@gmail.com?subject=GameDayHQ Demo Request">
+            Book a demo
+          </a>
+          <a class="btn-ghost" href="#apps">
+            Browse the live app demos
           </a>
         </div>
-      </div>
 
-      <aside class="products">
-        <!-- Player Development Hub card -->
-        <article class="product-card">
-          <div class="product-label">Player Development Hub</div>
-          <div class="product-title">Player Development Hub</div>
-          <div class="product-tagline">All your scouting notes in one place.</div>
-
-          <p class="product-body">
-            Every player gets a clean history of notes across the season—what they’re doing well,
-            what you’re asking them to work on, and how they’re trending. Coaches stay on the same page,
-            and you’ve always got something solid to point to in a meeting.
-          </p>
-
-          <div class="product-meta-row">
-            <div class="product-meta-pill">
-              <span>Coach Mode</span>
-            </div>
-            <div class="product-meta-pill">
-              <span>Player-Friendly Views</span>
-            </div>
-            <div class="product-meta-pill">
-              <span>Season History</span>
-            </div>
-          </div>
-
-          <div class="product-actions">
-            <a
-              class="btn btn-primary"
-              href="https://script.google.com/macros/s/AKfycbyWWG5eR1CGy6uqVweKO6wMrJu-5PHvKSnK7aB8HcdKBUC1V41fyniXacRFI_40uph1/exec"
-            >
-              Open Development Hub
-              <span class="btn-arrow">↗</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- Game Day Program card -->
-        <article class="product-card program">
-          <div class="product-label">Game Day Program</div>
-          <div class="product-title">Rangers Game Day Program</div>
-          <div class="product-tagline">A clean, digital program for every game.</div>
-
-          <p class="product-body">
-            Instead of “Did you send the lineup?” texts, you post one link. Fans see numbers,
-            names, positions, fun details, and your sponsors—all in a layout that feels like a
-            game-night handout, without you printing a thing.
-          </p>
-
-          <div class="product-meta-row">
-            <div class="product-meta-pill">
-              <span>Mobile-Friendly</span>
-            </div>
-            <div class="product-meta-pill">
-              <span>Sponsor Ready</span>
-            </div>
-            <div class="product-meta-pill">
-              <span>Instant Updates</span>
-            </div>
-          </div>
-
-          <div class="product-actions">
-            <a
-              class="btn btn-secondary"
-              href="https://www.rangersgameday.ca"
-            >
-              Open Game Day Program
-              <span class="btn-arrow">↗</span>
-            </a>
-          </div>
-        </article>
-      </aside>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-      <div class="footer-inner">
-        <div class="footer-logo-wrap">
-          <img src="gamedayhq-logo.png" class="footer-logo" alt="GameDayHQ Logo small">
+        <div class="hero-footnote">
+          Each tile on the right opens a <strong>live demo</strong> in a new tab. Use them to walk teams,
+          parents, or associations through what GameDayHQ can do.
         </div>
-        <div>
-          <span class="footer-label">GameDayHQ</span>
-          <span class="footer-sep">•</span>
-          <span class="footer-note">A simple digital toolkit for coaches, teams &amp; families.</span>
+      </section>
+
+      <!-- APPS SIDE -->
+      <section id="apps" class="apps-panel">
+        <div class="apps-header">
+          <div class="apps-title-block">
+            <div class="apps-title">The GameDayHQ Suite</div>
+            <div class="apps-subtitle">Click any app to open its demo in a new tab.</div>
+          </div>
+          <div class="apps-pill">
+            <span></span>
+            Live demos · Read/write with sample data
+          </div>
         </div>
+
+        <div class="apps-grid">
+          <!-- GAME DAY PROGRAM -->
+          <article class="app-card">
+            <div class="app-tag-row">
+              <div class="app-tag">Game Presentation</div>
+              <div class="app-mode-pill">Fans & parents view</div>
+            </div>
+            <div class="app-title">
+              Game Day <span>Program</span>
+            </div>
+            <p class="app-desc">
+              Mobile-friendly game day program with rosters, player details, sponsors, and QR-friendly links —
+              built to replace printed programs.
+            </p>
+            <div class="app-meta">
+              <div class="app-meta-pill">Rosters & lines</div>
+              <div class="app-meta-pill">Sponsors & QR posters</div>
+              <div class="app-meta-pill">Fast updates via Sheets</div>
+            </div>
+            <div class="app-actions">
+              <div class="app-links">
+                <a
+                  class="app-button primary"
+                  href="https://script.google.com/macros/s/AKfycbzi4NJYJDCwIovroQ2aIQdTyOG2L83OS2BGlStfygeRVCkeSfC0YUq1fAWU86ipCbERfA/exec"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View Program Demo <span class="chevron">↗</span>
+                </a>
+              </div>
+              <div class="app-note">Best used on a phone in portrait.</div>
+            </div>
+          </article>
+
+          <!-- PLAYER DEVELOPMENT HUB -->
+          <article class="app-card">
+            <div class="app-tag-row">
+              <div class="app-tag">Scouting & Development</div>
+              <div class="app-mode-pill">Coach + player portals</div>
+            </div>
+            <div class="app-title">
+              Player <span>Development Hub</span>
+            </div>
+            <p class="app-desc">
+              Centralized hub for player profiles, tags, strengths, areas to develop, and scouting notes —
+              with secure coach and player access.
+            </p>
+            <div class="app-meta">
+              <div class="app-meta-pill">Coach-only tools</div>
+              <div class="app-meta-pill">Player read-only view</div>
+              <div class="app-meta-pill">Runs on your Sheets data</div>
+            </div>
+            <div class="app-actions">
+              <div class="app-links">
+                <a
+                  class="app-button primary"
+                  href="https://script.google.com/macros/s/AKfycbwy19TVGN8M9qadRHr3n0bijm3U_RCe356f1xGOYfz3tS01byOw4o3SMUVgVEfCbBv9/exec"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Open Hub Demo <span class="chevron">↗</span>
+                </a>
+              </div>
+              <div class="app-note">Use sample PINs/passcodes configured in the demo sheet.</div>
+            </div>
+          </article>
+
+          <!-- TOURNAMENT HQ -->
+          <article class="app-card">
+            <div class="app-tag-row">
+              <div class="app-tag">Tournament Management</div>
+              <div class="app-mode-pill">Admins & fans</div>
+            </div>
+            <div class="app-title">
+              Tournament <span>HQ</span>
+            </div>
+            <p class="app-desc">
+              Round-robin + playoff engine with live standings, tie-breakers, and a clean public bracket view
+              driven entirely by your tournament spreadsheet.
+            </p>
+            <div class="app-meta">
+              <div class="app-meta-pill">Live standings</div>
+              <div class="app-meta-pill">Auto-seeded playoffs</div>
+              <div class="app-meta-pill">Public fan view</div>
+            </div>
+            <div class="app-actions">
+              <div class="app-links">
+                <a
+                  class="app-button primary"
+                  href="https://script.google.com/macros/s/AKfycbwy19TVGN8M9qadRHr3n0bijm3U_RCe356f1xGOYfz3tS01byOw4o3SMUVgVEfCbBv9/exec"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View Tournament Demo <span class="chevron">↗</span>
+                </a>
+              </div>
+              <div class="app-note">Admin PIN configured in the Config sheet for demo.</div>
+            </div>
+          </article>
+
+          <!-- VOLUNTEER & DUTY SCHEDULER -->
+          <article class="app-card">
+            <div class="app-tag-row">
+              <div class="app-tag">Volunteers & Duties</div>
+              <div class="app-mode-pill">Parents & managers</div>
+            </div>
+            <div class="app-title">
+              Volunteer & Duty <span>Scheduler</span>
+            </div>
+            <p class="app-desc">
+              Semi-private signup portal for timekeepers, penalty box, music, 50/50, and more — with an admin
+              view that syncs straight back into your Google Sheet.
+            </p>
+            <div class="app-meta">
+              <div class="app-meta-pill">Team-only access</div>
+              <div class="app-meta-pill">Open shifts view</div>
+              <div class="app-meta-pill">Email & status tracking</div>
+            </div>
+            <div class="app-actions">
+              <div class="app-links">
+                <a
+                  class="app-button primary"
+                  href="https://script.google.com/macros/s/AKfycbw2KksJ7NbEeWuMBJR4OzwEu5VGYFsurqGe9UXXmS_i0No5DIMAZ6RY9QzkJiUFKjHVlg/exec"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Open Volunteer Demo <span class="chevron">↗</span>
+                </a>
+              </div>
+              <div class="app-note">Parents only see the web app — Sheets stay in the background.</div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>© <span id="year"></span> GameDayHQ. Demo environment for showcasing features.</div>
+      <div>
+        Having trouble loading an app on arena Wi-Fi? 
+        <span style="font-weight:500; color:#facc15;">Turn Wi-Fi off and reload</span>.
       </div>
     </footer>
-  </main>
+  </div>
+
+  <script>
+    // Set current year in footer
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
